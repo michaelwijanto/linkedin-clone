@@ -9,13 +9,16 @@ export default function Home() {
         <UserInformation />
       </section>
 
-      <section className="col-span-full md:col-span-6 xl:col-span-4 xl:max-w-xl mx-auto w-full">
+      <section
+        className="col-span-full md:col-span-6 xl:col-span-4
+       xl:max-w-xl mx-auto w-full"
+      >
         {/* PostForm */}
         <PostForm />
         {/* PostFeed */}
       </section>
 
-      <section className="gidden xl:inline justify-center col-span-2">
+      <section className="hidden xl:inline justify-center col-span-2">
         {/* Widget */}
       </section>
     </div>
