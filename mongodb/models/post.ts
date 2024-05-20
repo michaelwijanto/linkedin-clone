@@ -1,6 +1,6 @@
 import { IUser } from "@/types/user";
 import mongoose, { Schema, Document, models, Model } from "mongoose";
-import { IComment, ICommentBase } from "./comment";
+import { Comment, IComment, ICommentBase } from "./comment";
 
 export interface IPostBase {
   user: IUser;
@@ -56,3 +56,66 @@ PostSchema.methods.likePost = async function (userId: string) {
     console.log("Failed to like post", error);
   }
 };
+
+PostSchema.methods.unlikePost = async function (userId: string) {
+  try {
+    await this.updateOne({ $pull: { likes: userId } });
+  } catch (error) {
+    console.log("Failed to unlike post", error);
+  }
+};
+
+PostSchema.methods.removePost = async function (userId: string) {
+  try {
+    await this.model("Post").deleteOne({ _id: this._id });
+  } catch (error) {
+    console.log("Failed to remove post", error);
+  }
+};
+
+PostSchema.methods.commentOnPost = async function (commentToAdd: ICommentBase) {
+  try {
+    const comment = await Comment.create(commentToAdd);
+    this.comments.push(comment._id);
+  } catch (error) {
+    console.log("Fail to comment post", error);
+  }
+};
+
+PostSchema.methods.getAllComments = async function () {
+  try {
+    await this.populate({
+      path: "comments",
+      options: { sort: { createdAt: -1 } }, //sort comments by newest first
+    });
+  } catch (error) {
+    console.log("Fail to load comments", error);
+  }
+};
+
+PostSchema.statics.getAllPosts = async function () {
+  try {
+    const posts = await this.find()
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "comments",
+        options: { sort: { createdAt: -1 } },
+      })
+      .lean(); //lean() to convert mongoose obj to plain JS obj
+
+    return posts.map((post: IPostDocument) => ({
+      ...posts,
+      _id: post.id.toString(),
+      comments: post.comments?.map((comment: IComment) => ({
+        ...comment,
+        _id: comment.id.toString(),
+      })),
+    }));
+  } catch (error) {
+    console.log("Fail to load post", error);
+  }
+};
+
+export const Post =
+  (models.Post as IPostModel) ||
+  mongoose.model<IPostDocument, IPostModel>("Post", PostSchema);

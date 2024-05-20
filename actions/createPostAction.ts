@@ -1,13 +1,13 @@
 "use server";
 
+import { IUser } from "@/types/user";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
 export default async function createPostAction(formData: FormData) {
-  // const user = await currentUser()
-  // if(!user) {
-  //     throw new Error ("User not authenticated")
-  // }
-  auth().protect();
+  const user = await currentUser();
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
 
   const postInput = formData.get("postInput") as string;
   const image = formData.get("image") as File;
@@ -18,7 +18,12 @@ export default async function createPostAction(formData: FormData) {
   }
 
   //define user
-
+  const userDB: IUser = {
+    userId: user.id,
+    userImage: user.imageUrl,
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+  };
   //upload image if there is one
 
   //create post in database
