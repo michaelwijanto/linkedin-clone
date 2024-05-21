@@ -9,7 +9,7 @@ function CommentFeed({ post }: { post: IPostDocument }) {
 
   const isAuthor = user?.id === post.user.userId;
   return (
-    <div>
+    <div className="space-y-2 mt-3">
       {post.comments?.map((comment) => (
         <div key={comment._id} className="flex space-x-1">
           <Avatar>
