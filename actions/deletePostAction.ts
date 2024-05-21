@@ -1,4 +1,4 @@
-"user server";
+"use server";
 import { Post } from "@/mongodb/models/post";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
@@ -11,6 +11,7 @@ export default async function deletePostAction(postId: string) {
   }
 
   const post = await Post.findById(postId);
+  console.log(postId);
 
   if (!post) {
     throw new Error("Post not found");

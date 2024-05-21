@@ -1,11 +1,14 @@
 "use client";
 import { IPostDocument } from "@/mongodb/models/post";
 import { useUser } from "@clerk/nextjs";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import ReactTimeago from "react-timeago";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
+import deletePostAction from "@/actions/deletePostAction";
+import Image from "next/image";
+import PostOptions from "./PostOptions";
 
 function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
@@ -48,7 +51,7 @@ function Post({ post }: { post: IPostDocument }) {
             <Button
               variant="outline"
               onClick={() => {
-                const promise = deletePostAction(post._id);
+                const promise = deletePostAction(post.id);
               }}
             >
               <Trash2 />
@@ -56,6 +59,22 @@ function Post({ post }: { post: IPostDocument }) {
           )}
         </div>
       </div>
+
+      <div>
+        <p className="px-4 pb-2 mt-2">{post.text}</p>
+        {post.imageUrl && (
+          <Image
+            src={post.imageUrl}
+            alt="Post Image"
+            width={500}
+            height={500}
+            className="w-full mx-auto"
+          />
+        )}
+      </div>
+
+      {/* PostOptions */}
+      <PostOptions post={post} />
     </div>
   );
 }

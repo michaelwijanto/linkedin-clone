@@ -27,7 +27,7 @@ interface IPostMethods {
 interface IPostStatics {
   getAllPosts(): Promise<IPostDocument[]>;
 }
-
+// Merge the document methods, and static methods with IPost
 export interface IPostDocument extends IPost, IPostMethods {} //singular instance of a post
 interface IPostModel extends IPostStatics, Model<IPostDocument> {} //all post
 
