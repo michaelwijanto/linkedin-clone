@@ -24,12 +24,12 @@ interface IPostMethods {
   removePost(): Promise<void>;
 }
 
-interface IPostStatistics {
+interface IPostStatics {
   getAllPosts(): Promise<IPostDocument[]>;
 }
 
 export interface IPostDocument extends IPost, IPostMethods {} //singular instance of a post
-interface IPostModel extends IPostStatistics, Model<IPostDocument> {} //all post
+interface IPostModel extends IPostStatics, Model<IPostDocument> {} //all post
 
 const PostSchema = new Schema<IPostDocument>(
   {
@@ -104,7 +104,7 @@ PostSchema.statics.getAllPosts = async function () {
       .lean(); //lean() to convert mongoose obj to plain JS obj
 
     return posts.map((post: IPostDocument) => ({
-      ...posts,
+      ...post,
       _id: post.id.toString(),
       comments: post.comments?.map((comment: IComment) => ({
         ...comment,

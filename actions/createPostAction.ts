@@ -1,5 +1,7 @@
 "use server";
 
+import { AddPostRequestBody } from "@/app/api/posts/route";
+import { Post } from "@/mongodb/models/post";
 import { IUser } from "@/types/user";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
@@ -24,9 +26,29 @@ export default async function createPostAction(formData: FormData) {
     firstName: user.firstName || "",
     lastName: user.lastName || "",
   };
-  //upload image if there is one
 
-  //create post in database
+  try {
+    if (image.size > 0) {
+      //upload image if there is one
+      //create post in database
+      const body: AddPostRequestBody = {
+        user: userDB,
+        text: postInput,
+        //imageUrl
+      };
+      await Post.create(body);
+    } else {
+      const body: AddPostRequestBody = {
+        user: userDB,
+        text: postInput,
+      };
+      await Post.create(body);
+    }
+
+    //create post in database
+  } catch (error: any) {
+    throw new Error("Failed to create post", error);
+  }
 
   //revalidatePath '/' - home page
 }
