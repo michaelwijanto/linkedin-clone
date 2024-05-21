@@ -105,10 +105,10 @@ PostSchema.statics.getAllPosts = async function () {
 
     return posts.map((post: IPostDocument) => ({
       ...post,
-      _id: post.id.toString(),
+      _id: post.id,
       comments: post.comments?.map((comment: IComment) => ({
         ...comment,
-        _id: comment.id.toString(),
+        _id: comment.id,
       })),
     }));
   } catch (error) {
