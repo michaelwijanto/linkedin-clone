@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { LikePostRequestBody } from "@/app/api/posts/[post_id]/like/route";
 import { UnlikePostRequestBody } from "@/app/api/posts/[post_id]/unlike/route";
 import CommentFeed from "./CommentFeed";
+import CommentForm from "./CommentForm";
 
 function PostOptions({ post }: { post: IPostDocument }) {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false); //is comment section opened
@@ -129,7 +130,7 @@ function PostOptions({ post }: { post: IPostDocument }) {
 
       {isCommentsOpen && (
         <div className="p-4">
-          {/* <CommentFeed post={post} /> */}
+          <CommentForm postId={post.id} />
           <SignedIn>
             <CommentFeed post={post} />
           </SignedIn>

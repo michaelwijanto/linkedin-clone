@@ -7,7 +7,7 @@ import ReactTimeago from "react-timeago";
 function CommentFeed({ post }: { post: IPostDocument }) {
   const { user } = useUser();
 
-  const isAuthor = user?.id === post.user.userId;
+  const isAuthor = user?.id === post.user.userId; //can put badge icon if author
   return (
     <div className="space-y-2 mt-3">
       {post.comments?.map((comment) => (
