@@ -9,6 +9,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +28,7 @@ export default function RootLayout({
       <html lang="en">
         <body className="min-h-screen flex flex-col">
           {/* Toaster */}
-
+          <Toaster position="bottom-left" />
           <header className="border-b sticky top-0 z-50">
             <Header />
           </header>

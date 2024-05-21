@@ -60,15 +60,17 @@ async function UserInformation({ posts }: { posts: IPostDocument[] }) {
 
       <hr className="w-full border-gray-200 my-5" />
 
-      <div className="flex justify-between w-full px-4 text-sm">
-        <p className="font-semibold text-gray-400">Posts</p>
-        <p className="text-blue-400">{userPosts.length}</p>
-      </div>
+      <SignedIn>
+        <div className="flex justify-between w-full px-4 text-sm">
+          <p className="font-semibold text-gray-400">Posts</p>
+          <p className="text-blue-400">{userPosts.length}</p>
+        </div>
 
-      <div className="flex justify-between w-full px-4 text-sm">
-        <p className="font-semibold text-gray-400">Comments</p>
-        <p className="text-blue-400">{userComments.length}</p>
-      </div>
+        <div className="flex justify-between w-full px-4 text-sm">
+          <p className="font-semibold text-gray-400">Comments</p>
+          <p className="text-blue-400">{userComments.length}</p>
+        </div>
+      </SignedIn>
     </div>
   );
 }
