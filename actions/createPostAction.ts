@@ -4,6 +4,7 @@ import { AddPostRequestBody } from "@/app/api/posts/route";
 import { Post } from "@/mongodb/models/post";
 import { IUser } from "@/types/user";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export default async function createPostAction(formData: FormData) {
   const user = await currentUser();
@@ -50,5 +51,5 @@ export default async function createPostAction(formData: FormData) {
     throw new Error("Failed to create post", error);
   }
 
-  //revalidatePath '/' - home page
+  revalidatePath("/"); //- home page
 }

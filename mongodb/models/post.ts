@@ -34,7 +34,7 @@ interface IPostModel extends IPostStatics, Model<IPostDocument> {} //all post
 const PostSchema = new Schema<IPostDocument>(
   {
     user: {
-      userId: { type: String, reuqired: true },
+      userId: { type: String, required: true },
       userImage: { type: String, required: true },
       firstName: { type: String, required: true },
       lastName: { type: String },
@@ -105,10 +105,10 @@ PostSchema.statics.getAllPosts = async function () {
 
     return posts.map((post: IPostDocument) => ({
       ...post,
-      _id: post.id,
+      _id: post._id.toString(),
       comments: post.comments?.map((comment: IComment) => ({
         ...comment,
-        _id: comment.id,
+        _id: comment._id.toString(),
       })),
     }));
   } catch (error) {
