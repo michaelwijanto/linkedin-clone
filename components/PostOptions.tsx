@@ -1,13 +1,14 @@
 "use client";
 
 import { IPostDocument } from "@/mongodb/models/post";
-import { useUser } from "@clerk/nextjs";
+import { SignedIn, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { MessageCircle, Repeat2, Send, ThumbsUpIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LikePostRequestBody } from "@/app/api/posts/[post_id]/like/route";
 import { UnlikePostRequestBody } from "@/app/api/posts/[post_id]/unlike/route";
+import CommentFeed from "./CommentFeed";
 
 function PostOptions({ post }: { post: IPostDocument }) {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false); //is comment section opened
@@ -125,6 +126,15 @@ function PostOptions({ post }: { post: IPostDocument }) {
           Send
         </Button>
       </div>
+
+      {isCommentsOpen && (
+        <div className="p-4">
+          {/* <CommentFeed post={post} /> */}
+          <SignedIn>
+            <CommentFeed post={post} />
+          </SignedIn>
+        </div>
+      )}
     </div>
   );
 }
