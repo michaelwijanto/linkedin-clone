@@ -139,7 +139,7 @@ function PostOptions({ post }: { post: IPostDocument }) {
 
       {isCommentsOpen && (
         <div className="p-4">
-          <CommentForm postId={post.id} />
+          <CommentForm postId={post._id} />
           <SignedIn>
             <CommentFeed post={post} />
           </SignedIn>

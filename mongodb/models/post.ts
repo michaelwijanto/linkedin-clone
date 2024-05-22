@@ -77,6 +77,7 @@ PostSchema.methods.commentOnPost = async function (commentToAdd: ICommentBase) {
   try {
     const comment = await Comment.create(commentToAdd);
     this.comments.push(comment._id);
+    await this.save();
   } catch (error) {
     console.log("Fail to comment post", error);
   }
@@ -105,10 +106,10 @@ PostSchema.statics.getAllPosts = async function () {
 
     return posts.map((post: IPostDocument) => ({
       ...post,
-      _id: post._id.toString(),
+      _id: post._id?.toString(),
       comments: post.comments?.map((comment: IComment) => ({
         ...comment,
-        _id: comment._id.toString(),
+        _id: comment._id?.toString(),
       })),
     }));
   } catch (error) {
