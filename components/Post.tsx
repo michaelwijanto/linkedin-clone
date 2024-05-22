@@ -52,7 +52,7 @@ function Post({ post }: { post: IPostDocument }) {
             <Button
               variant="outline"
               onClick={() => {
-                const promise = deletePostAction(post.id);
+                const promise = deletePostAction(post._id);
 
                 //Toast
                 toast.promise(promise, {
